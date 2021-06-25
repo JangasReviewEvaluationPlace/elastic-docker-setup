@@ -1,0 +1,24 @@
+version: "3"
+
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.12.0
+    container_name: youtube_data_collection_elasticsearch
+    ports:
+      - 9200:9200
+    env_file: ./elasticsearch/.env
+    restart: always
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.12.0
+    container_name: youtube_data_collection_kibana
+    ports:
+      - 5601:5601
+    env_file: ./kibana/.env
+    restart: always
+    depends_on:
+      - elasticsearch
